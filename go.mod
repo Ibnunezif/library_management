@@ -1,3 +1,3 @@
-module BACKEND_GO
+module LIBRARY_MANAGEMENT
 
 go 1.25.7

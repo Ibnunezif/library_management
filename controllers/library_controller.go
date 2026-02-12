@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"fmt"
-	"BACKEND_GO/models"
-	"BACKEND_GO/services"
+	"LIBRARY_MANAGEMENT/models"
+	"LIBRARY_MANAGEMENT/services"
 )
 
 func StartCLI(l services.LibraryManager) {
@@ -15,6 +15,7 @@ func StartCLI(l services.LibraryManager) {
 		fmt.Println("4. Return Book")
 		fmt.Println("5. List Available Books")
 		fmt.Println("6. List Borrowed Books")
+		fmt.Println("7. Reserve Book") // new option
 		fmt.Println("0. Exit")
 		fmt.Print("Enter choice: ")
 
@@ -34,6 +35,8 @@ func StartCLI(l services.LibraryManager) {
 			listAvailableBooksCLI(l)
 		case 6:
 			listBorrowedBooksCLI(l)
+		case 7: // handle reservation
+			reserveBookCLI(l)
 		case 0:
 			fmt.Println("Exiting...")
 			return
@@ -113,5 +116,20 @@ func listBorrowedBooksCLI(l services.LibraryManager) {
 	fmt.Println("\nBorrowed Books:")
 	for _, b := range books {
 		fmt.Printf("ID:%d | Title:%s | Author:%s\n", b.ID, b.Title, b.Author)
+	}
+}
+
+func reserveBookCLI(l services.LibraryManager) {
+	var memberID, bookID int
+	fmt.Print("Enter your Member ID: ")
+	fmt.Scanln(&memberID)
+	fmt.Print("Enter Book ID to reserve: ")
+	fmt.Scanln(&bookID)
+
+	err := l.ReserveBook(bookID, memberID)
+	if err != nil {
+		fmt.Println("Reservation failed:", err)
+	} else {
+		fmt.Println("Reservation successful!")
 	}
 }
